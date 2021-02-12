@@ -71,3 +71,31 @@ def ratios(sequence: str, bases: list = ("A", "T", "G", "C")) -> tuple:
 
     return tuple(ratio.values())
 
+
+def kmers(sequence: str, k: int) -> tuple:
+    """Find k-mers of sequence
+
+    Args:
+        sequence (str): Sequence to be subsequenced
+        k (int): Length of subsequences
+
+    Raises:
+        TypeError: If sequence isn't string
+        ValueError: If k is bigger then sequence
+        TypeError: If k isn't int
+
+    Returns:
+        tuple: [description]
+    """
+    if not isinstance(sequence, str):
+        raise TypeError("Sequence must be str")
+
+    if k > len(sequence):
+        raise ValueError("k cannot be longer then the sequence")
+
+    if not isinstance(k, int):
+        raise TypeError("k must be int")
+
+    kms = [sequence[i:i + k] for i in range(0, len(sequence) - k + 1)]
+
+    return tuple(kms)
