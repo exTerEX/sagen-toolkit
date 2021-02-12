@@ -85,7 +85,7 @@ def kmers(sequence: str, k: int) -> tuple:
         TypeError: If k isn't int
 
     Returns:
-        tuple: [description]
+        tuple: kmers of sequence
     """
     if not isinstance(sequence, str):
         raise TypeError("Sequence must be str")
