@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Helpful algorithms when working with sequences"""
 
 
 def valid(sequence: str, bases: list = ("A", "T", "G", "C")) -> bool:
