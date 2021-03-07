@@ -14,13 +14,14 @@ def needleman_wunsch(reference: str, query: str, **kwargs) -> numpy.ndarray:
     """A simple implementation of Needleman–Wunsch algorithm.
 
     Raises:
-        ValueError: If more or less then two strings are given
         TypeError: If any element given to align isn't a string
 
     Returns:
         numpy.ndarray: Calculated alignment matrix
     """
-    
+    if not isinstance(reference, str) or not isinstance(query, str):
+        raise TypeError("Only accepts string types")
+
     kwargs = {**default, **kwargs}
 
     matrix = numpy.zeros([len(reference) + 1, len(query) + 1], dtype=int)
@@ -55,13 +56,14 @@ def smith_waterman(reference: str, query: str, **kwargs) -> numpy.ndarray:
     """A simple implementation of Smith–Waterman algorithm.
 
     Raises:
-        ValueError: If more or less then two strings are given
         TypeError: If any element given to align isn't a string
 
     Returns:
         numpy.ndarray: Calculated alignment matrix
     """
-    
+    if not isinstance(reference, str) or not isinstance(query, str):
+        raise TypeError("Only accepts string types")
+
     kwargs = {**default, **kwargs}
 
     matrix = numpy.zeros([len(reference) + 1, len(query) + 1], dtype=int)
