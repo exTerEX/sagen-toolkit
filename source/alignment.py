@@ -10,7 +10,7 @@ default = {
 }
 
 
-def needleman_wunsch(*seq: str, **kwargs) -> numpy.ndarray:
+def needleman_wunsch(reference: str, query: str, **kwargs) -> numpy.ndarray:
     """A simple implementation of Needleman–Wunsch algorithm.
 
     Raises:
@@ -20,30 +20,24 @@ def needleman_wunsch(*seq: str, **kwargs) -> numpy.ndarray:
     Returns:
         numpy.ndarray: Calculated alignment matrix
     """
-    if len(seq) != 2:
-        raise ValueError("Only support two strings to align.")
-
-    for element in seq:
-        if not isinstance(element, str):
-            raise TypeError("Only support string values")
-
+    
     kwargs = {**default, **kwargs}
 
-    matrix = numpy.zeros([len(seq[0]) + 1, len(seq[1]) + 1], dtype=int)
+    matrix = numpy.zeros([len(reference) + 1, len(query) + 1], dtype=int)
 
-    for index in range(1, len(seq[0]) + 1):
+    for index in range(1, len(reference) + 1):
         matrix[index][0] = int(kwargs["gap"] * index)
 
-    for jndex in range(1, len(seq[1]) + 1):
+    for jndex in range(1, len(query) + 1):
         matrix[0][jndex] = int(kwargs["gap"] * jndex)
 
-    for index in range(1, len(seq[0])+1):
-        for jndex in range(1, len(seq[1])+1):
+    for index in range(1, len(reference)+1):
+        for jndex in range(1, len(query)+1):
             score_left = matrix[index][jndex-1]
             score_above = matrix[index-1][jndex]
             score_diagonal = matrix[index-1][jndex-1]
 
-            if seq[0][index-1] == seq[1][jndex-1]:
+            if reference[index-1] == query[jndex-1]:
                 score_diagonal += kwargs["match"]
             else:
                 score_diagonal += kwargs["mismatch"]
@@ -57,7 +51,7 @@ def needleman_wunsch(*seq: str, **kwargs) -> numpy.ndarray:
     return matrix
 
 
-def smith_waterman(*seq: str, **kwargs) -> numpy.ndarray:
+def smith_waterman(reference: str, query: str, **kwargs) -> numpy.ndarray:
     """A simple implementation of Smith–Waterman algorithm.
 
     Raises:
@@ -67,30 +61,24 @@ def smith_waterman(*seq: str, **kwargs) -> numpy.ndarray:
     Returns:
         numpy.ndarray: Calculated alignment matrix
     """
-    if len(seq) != 2:
-        raise ValueError("Only support two strings to align.")
-
-    for element in seq:
-        if not isinstance(element, str):
-            raise TypeError("Only support string values")
-
+    
     kwargs = {**default, **kwargs}
 
-    matrix = numpy.zeros([len(seq[0]) + 1, len(seq[1]) + 1], dtype=int)
+    matrix = numpy.zeros([len(reference) + 1, len(query) + 1], dtype=int)
 
-    for index in range(1, len(seq[0]) + 1):
+    for index in range(1, len(reference) + 1):
         matrix[index][0] = int(0)
 
-    for jndex in range(1, len(seq[1]) + 1):
+    for jndex in range(1, len(query) + 1):
         matrix[0][jndex] = int(0)
 
-    for index in range(1, len(seq[0])+1):
-        for jndex in range(1, len(seq[1])+1):
+    for index in range(1, len(reference)+1):
+        for jndex in range(1, len(query)+1):
             score_left = matrix[index][jndex-1]
             score_above = matrix[index-1][jndex]
             score_diagonal = matrix[index-1][jndex-1]
 
-            if seq[0][index-1] == seq[1][jndex-1]:
+            if reference[index-1] == query[jndex-1]:
                 score_diagonal += kwargs["match"]
             else:
                 score_diagonal += kwargs["mismatch"]
